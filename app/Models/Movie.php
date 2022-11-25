@@ -18,6 +18,6 @@ class Movie extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class)->select('name');
+        return $this->belongsTo(Category::class);
     }
 }

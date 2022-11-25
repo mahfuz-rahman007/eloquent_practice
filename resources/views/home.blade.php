@@ -22,7 +22,7 @@
                             @foreach ($movies as $movie)
                                 <tr>
                                     <td>{{ $loop->iteration }}. {{ $movie->title }}</td>
-                                    <td>{{ $movie->category_namee }}</td>
+                                    <td>{{ $movie->category_name }}</td>
                                     <td>{{ $movie->release_year }}</td>
                                     <td>{{ number_format($movie->rating, 2) }}</td>
                                     <td>{{ $movie->count }}</td>
@@ -30,6 +30,52 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Email Verify At</th>
+                                <th>ROLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($customers as $customer)
+                                <tr>
+                                    <td>{{ $loop->iteration }}. {{ $customer->name }}</td>
+                                    <td>{{ $customer->email }}</td>
+                                    <td>{{ $customer->email_veryfied_at->diffForHumans() }}</td>
+                                    <td>{{ $customer->role->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="my-4">
+                        <form action="{{ route('userSave') }}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <label for="">Name</label>
+                                <input type="text" name="name" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Email</label>
+                                <input type="email" name="email" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Role type</label>
+                                <select class="form-control" name="role" id="">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approve">Approve</option>
+                                    <option value="Trash">Trash</option>
+                                    <option value="Spam">Spam</option>
+                                </select>
+                            </div>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
