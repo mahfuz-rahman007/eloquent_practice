@@ -32,7 +32,7 @@ class HomeController extends Controller
                         ])
                         ->take(1)->get();
 
-
+    $customers = Customer::all();
 
         return view('home', compact('movies','customers'));
     }
