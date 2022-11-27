@@ -34,7 +34,7 @@ class HomeController extends Controller
 
     $customers = Customer::all();
 
-        return view('home', compact('movies','customers'));
+    return view('home', compact('movies','customers'));
     }
 
     public function userSave(Request $request){
@@ -45,7 +45,6 @@ class HomeController extends Controller
             'email_veryfied_at' => Carbon::now(),
             'role' => \App\Enums\Roles::fromName($request->role)
        ]);
-
 
        return redirect()->back();
     }
