@@ -18,3 +18,7 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])
 
 Route::post('user/create' , [\App\Http\Controllers\HomeController::class, 'userSave'])
 ->name('userSave');
+
+Route::get('/about' , function(){
+    return view('about');
+});
