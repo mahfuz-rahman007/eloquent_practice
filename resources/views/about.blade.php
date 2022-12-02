@@ -19,7 +19,9 @@
 
 @section('custom-styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
 
+    </style>
 @endsection
 
 @section('content')
@@ -133,7 +135,7 @@
                     </div>
                 </form>
 
-                <div class="mt-4">
+                <div class="mt-4" id="body_typography_preview">
                     A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z.
                 </div>
             </div>
@@ -142,22 +144,22 @@
 @endsection
 
 @section('custom-scripts')
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 
-<!-- ✅ load JS for Select2 ✅ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- ✅ load JS for Select2 ✅ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $('.font_family').on('change', function() {
                 let data_section = $(this).data('section');
-                let subsetId = "#"+data_section+"_font_subsets";
-                let fontWeigthId = "#"+data_section+"_font_weight_style" ;
+                let subsetId = "#" + data_section + "_font_subsets";
+                let fontWeigthId = "#" + data_section + "_font_weight_style";
 
-                let variations =  $("option:selected", this).data('variations')
-                let subsets =  $("option:selected", this).data('subsets')
+                let variations = $("option:selected", this).data('variations')
+                let subsets = $("option:selected", this).data('subsets')
 
-                addedToSubsets(subsetId ,subsets);
-                addedToFontWeight(fontWeigthId ,variations);
+                addedToSubsets(subsetId, subsets);
+                addedToFontWeight(fontWeigthId, variations);
                 createUrl(data_section);
             })
 
@@ -165,48 +167,53 @@
 
 
         // added to subsets
-        function addedToSubsets(subsetId ,subsets)
-        {
+        function addedToSubsets(subsetId, subsets) {
             $(subsetId).html('');
-            $(subsets).each(function (index, element) {
+            $(subsets).each(function(index, element) {
                 $(subsetId).append(`<option value="${element}">${element}</option>`);
             });
         }
 
         // added to subsets
-        function addedToFontWeight(fontWeigthId ,variations)
-        {
+        function addedToFontWeight(fontWeigthId, variations) {
             $(fontWeigthId).html('');
-            $(variations).each(function (index, element) {
+            $(variations).each(function(index, element) {
                 $(fontWeigthId).append(`<option value="${element}">${element}</option>`);
             });
         }
-        function createUrl(section)
-        {
-            let family = $('#'+section+'_font_family').val();
-            let subset = $('#'+section+'_font_subsets').val();
-            let variation = $('#'+section+'_font_weight_style').val();
+
+        function createUrl(section) {
+            let family = $('#' + section + '_font_family').val();
+            let subset = $('#' + section + '_font_subsets').val();
+            let variation = $('#' + section + '_font_weight_style').val();
+            let boldNum = '';
 
             var apiUrl = [];
             apiUrl.push('https://fonts.googleapis.com/css?family=');
             apiUrl.push(family.replace(/ /g, '+'));
 
             if (variation.includes('italic')) {
-                apiUrl.push(':');
-                apiUrl.push('ital');
-                let boldNumb = variation.replace('italic','');
-                if(boldNumb.length > 0)
-                {
-                    apiUrl.push(',wght@1,'+boldNumb);
-                } else{
+                apiUrl.push(':ital');
+
+                boldNum = variation.replace('italic', '');
+                if (boldNum.length > 0) {
+                    apiUrl.push(',wght@1,' + boldNum);
+                } else {
+                    boldNum = '400';
                     apiUrl.push('@1');
                 }
+
+                var font_style = 'italic';
             } else {
                 apiUrl.push(':');
-                if(variation == 'regular'){
-                    variation = '400';
+                if (variation == 'regular') {
+                    boldNum = '400';
+                } else {
+                    boldNum = variation;
                 }
-                apiUrl.push('wght@1,'+variation);
+                apiUrl.push('wght@1,' + boldNum);
+
+                var font_style = 'normal';
             }
 
             if (subset) {
@@ -218,6 +225,13 @@
             var url = apiUrl.join('');
 
             console.log(url);
+            // $('head').append(`<link rel="stylesheet" href = "${url}" > `);
+            $('link:last').after('<link href="' + url + '" rel="stylesheet" type="text/css">');
+            $('#'+section+'_typography_preview').css({
+                "font-family":'"'+family+'", sans-serif',
+                "font-style":font_style,
+                "font-weight":boldNum
+            })
         }
     </script>
 @endsection
