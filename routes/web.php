@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EloquentPracticeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -25,3 +26,9 @@ Route::get('/about' , function(){
 });
 
 Route::get('/practice' , [HomeController::class, 'practice']);
+
+Route::get('/practice2' , [HomeController::class, 'practice2']);
+
+Route::get('/eloquent' , [EloquentPracticeController::class, 'index']);
+
+

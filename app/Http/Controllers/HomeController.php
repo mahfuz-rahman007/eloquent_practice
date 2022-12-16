@@ -257,4 +257,120 @@ class HomeController extends Controller
         "widget_anchor_hover_color_transparent" => "0"
         ];
     }
+
+
+    public function practice2()
+    {
+        $options = $this->mainArray2();
+
+        $mainCss = [];
+
+        foreach ($options as $key => $value) {
+            $nameArray = explode('_', $key);
+            $property = array_pop($nameArray);
+            $section = join('_',$nameArray);
+
+            if($property === 'color' || $property === 'background-color'){
+               if(isset($options[$key."-transparent"]) && $options[$key."-transparent"] == 1){
+                    unset($options[$key."-transparent"]);
+                    $value = 'transparent';
+               }
+            }
+
+            if(str_contains($property,'margin') || str_contains($property,'padding')){
+                $value = $value.$options[$section.'_unit'];
+            }
+
+            $mainCss[$section][$property] = $value;
+        }
+
+        dd($mainCss);
+    }
+
+
+
+    public function mainArray2()
+    {
+        return [
+            "widget_background-color" => "#a20203",
+            "widget_background-color-transparent" => "1",
+            "widget_c_custom-box" => "1",
+            "widget_box-shadow" => "rgba(100,134,14,1)2rem 2rem 2rem 2rem",
+
+            //****//
+            "box_shadow_offset_x" => "2",
+            "box_shadow_offset_y" => "2",
+            "box_shadow_blur_radius" => "2",
+            "box_shadow_spread_radius" => "2",
+            "box_shadow_opacity" => "1",
+            "box_shadow_unit" => "rem",
+            "box_shadow_color" => "#64860e",
+            "box_shadow_type" => "outside",
+            //****//
+
+
+            "widget_margin_margin-top" => "89",
+            "widget_margin_margin-right" => "97",
+            "widget_margin_margin-bottom" => "96",
+            "widget_margin_margin-left" => "19",
+            "widget_margin_unit" => "em",
+
+            "widget_padding_padding-top" => "27",
+            "widget_padding_padding-right" => "91",
+            "widget_padding_padding-bottom" => "51",
+            "widget_padding_padding-left" => "97",
+            "widget_padding_unit" => "em",
+
+            "widget_border_border-top" => "1",
+            "widget_border_border-right" => "86",
+            "widget_border_border-bottom" => "69",
+            "widget_border_border-left" => "72",
+            "widget_border_border-type" => "dashed",
+            "widget_border_border-color" => "#020c1e",
+            "widget_border_unit" => "dashed",
+
+
+            "widget_title_tag" => "h3",
+            "widget_title_typography_google_link" => "https://fonts.googleapis.com/css?family=Unkempt:wght@1,400&subset=latin&display=swap",
+
+            //**** */
+            "widget_title_typography_css" => '{"font-family":"\"Unkempt\", sans-serif","font-style":"normal","font-weight":"400","text-align":"justify","text-transform":"none","font-size":"85px"}',
+
+            "widget_title_font_font-family" => "Unkempt",
+            "widget_title_font_font-weight" => "regular",
+            "widget_title_font_font-subsets" => "latin",
+            "widget_title_font_text-align" => "justify",
+            "widget_title_font_text-transform" => "none",
+            "widget_title_font_font-size" => "85",
+            "widget_title_font_line-height" => "4",
+            "widget_title_font_word-spacing" => "69",
+            "widget_title_font_letter-spacing" => "82",
+            "widget_title_font_color" => "#6b17e9",
+            //**** */
+
+            "widget_title_margin_margin-top" => "31",
+            "widget_title_margin_margin-right" => "72",
+            "widget_title_margin_margin-bottom" => "59",
+            "widget_title_margin_margin-left" => "30",
+            "widget_title_margin_unit" => "px",
+
+            "widget_title_padding_padding-top" => "100",
+            "widget_title_padding_padding-right" => "34",
+            "widget_title_padding_padding-bottom" => "1",
+            "widget_title_padding_padding-left" => "61",
+            "widget_title_padding_unit" => "px",
+
+            "widget_title_color" => "#ecfdef",
+            "widget_title_color-transparent" => "1",
+
+            "widget_text_color" => "#d5cbc9",
+            "widget_text_color-transparent" => "1",
+
+            "widget_anchor_color" => "#3f7f17",
+            "widget_anchor_color-transparent" => "1",
+
+            "widget_anchor_hover_color" => "#8cb5a8",
+            "widget_anchor_hover_color-transparent" => "1"
+        ];
+    }
 }
